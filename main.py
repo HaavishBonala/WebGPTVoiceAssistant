@@ -1,13 +1,3 @@
-# Steps to execute
-# ------------------
-# 1. Set up a virtual environment with python3 -m venv venv
-# 2. Run it with source venv/bin/activate
-# 3. Install libraries with pip install -r requirements.txt
-# 4. Set OpenAI API key with export OPENAI_API_KEY='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'
-# export GOOGLE_CSE_API_KEY='AIzaSyDw61mSWZ02OENBj7tXf1H5TWWd5sJFUqA'
-# export GOOGLE_CSE_ID='420738ce372154763'
-# 5. Run the program with python3 main.py
-
 # Import the required modules
 import speech_recognition as sr
 import os
@@ -71,7 +61,7 @@ class OpenaiAPI():
 
     def get_chatgpt_response(self, history, query):
         
-        os.system("mpg123 wait.mp3")
+        play_mp3_file("wait.mp3")
         
         ga = GoogleAPI()
         
@@ -121,19 +111,6 @@ class OpenaiAPI():
             ).stream_to_file(speech_file_path)
     
 class SpeechRecognitonAPI():
-    # Define a function that listens to the microphone and returns the text
-    # def listen(self):
-    #     with sr.Microphone() as source:
-    #         print("Listening")
-
-    #         try:
-    #             audio = recognizer.listen(source)
-    #             print("Recognizing")
-    #             text = recognizer.recognize_google(audio)  # Convert speech to text
-    #             return text
-    #         except:
-    #             print("Nothing was heard.")
-    #             return None
     def listen(self,timeout=0):
         with sr.Microphone() as source:
             print("Listening")
@@ -166,7 +143,13 @@ class SpeechRecognitonAPI():
             return True
         else:
             return False     
-        
+
+def play_mp3_file(mp3_file_location):
+    if sys.platform == 'darwin':
+        os.system("afplay "+mp3_file_location)
+    else:
+        os.system("mpg123 "+mp3_file_location)
+    
 if __name__ == '__main__':
     sra = SpeechRecognitonAPI()
     oa = OpenaiAPI()
@@ -177,7 +160,7 @@ if __name__ == '__main__':
         try:
             if sra.check_for_wakeword(sra.listen()):
                 print("Wake Word Detected")
-                os.system("mpg123 listening.mp3")
+                play_mp3_file("listening.mp3")
                 user_input = sra.listen(timeout=5)
                 
                 history.append((user_input, None))
@@ -186,7 +169,7 @@ if __name__ == '__main__':
 
                 oa.text_to_speech(history)
 
-                os.system("mpg123 speech.mp3")
+                play_mp3_file("speech.mp3")
                     
                 #reseting timer
                 start_time = time.time()
@@ -197,4 +180,4 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             exit()
         except:
-            os.system("mpg123 restarting.mp3")
+            play_mp3_file("restarting.mp3")
