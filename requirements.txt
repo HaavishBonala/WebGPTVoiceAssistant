@@ -1,3 +1,4 @@
 openai
 google-api-python-client
 SpeechRecognition
+PyAudio

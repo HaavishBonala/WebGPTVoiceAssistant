@@ -1,6 +1,7 @@
 # Import the required modules
 import speech_recognition as sr
 import os
+import sys
 import time
 from pathlib import Path
 from openai import OpenAI
