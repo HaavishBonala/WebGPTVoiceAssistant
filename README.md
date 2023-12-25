@@ -9,10 +9,11 @@ python3 -m venv myvenv
 ```
 
 ## Installation
-Before running the assistant, you need to install `portaudio19-dev` and `mpg123`. Activate the virtual environment and install the required libraries from `requirements.txt` using the following commands:
+Before running the assistant, you need to install `portaudio19-dev`, `mpg123` and `flac`. Activate the virtual environment and install the required libraries from `requirements.txt` using the following commands:
 ```bash
 sudo apt install portaudio19-dev
 sudo apt install mpg123
+sudo apt install flac
 
 source myvenv/bin/activate
 pip install -r requirements.txt
