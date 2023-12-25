@@ -162,7 +162,7 @@ if __name__ == '__main__':
             if sra.check_for_wakeword(sra.listen()):
                 print("Wake Word Detected")
                 play_mp3_file("listening.mp3")
-                user_input = sra.listen(timeout=5)
+                user_input = sra.listen(timeout=10)
                 
                 history.append((user_input, None))
 
