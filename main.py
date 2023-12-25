@@ -28,8 +28,6 @@ wake_word = "hello"
 
 speech_file_path = Path(__file__).parent / "speech.mp3"
 
-
-
 class GoogleAPI():
     def __init__(self):
         # Initialize Google Custom Search Engine
@@ -73,14 +71,14 @@ class OpenaiAPI():
 
     def get_chatgpt_response(self, history, query):
         
-        os.system("afplay wait.mp3")
+        os.system("mpg123 wait.mp3")
         
         ga = GoogleAPI()
         
         # Get the search query
         search_query = self.get_search_query(history, query)
 
-        print("Search query: ", search_query)
+        #print("Search query: ", search_query)
         
 
         # Add a system message to the front
@@ -136,7 +134,7 @@ class SpeechRecognitonAPI():
     #         except:
     #             print("Nothing was heard.")
     #             return None
-    def listen(self, timeout=5):
+    def listen(self,timeout=0):
         with sr.Microphone() as source:
             print("Listening")
 
@@ -146,7 +144,7 @@ class SpeechRecognitonAPI():
                 #recognizer.energy_threshold = 4000 this is for more precise control setup and test on rpi
 
                 # Set a timeout for listening
-                audio = recognizer.listen(source, timeout=timeout)
+                audio = recognizer.listen(source,timeout)
 
                 if audio:
                     print("Recognizing")
@@ -176,25 +174,27 @@ if __name__ == '__main__':
     start_time = time.time()
 
     while True:
-        if sra.check_for_wakeword(sra.listen()):
-            print("Wake word detected")
-            os.system("afplay listening.mp3")
-            user_input = sra.listen()
-            
-            if user_input is None:
-                os.system("afplay restarting.mp3")
-            else:
+        try:
+            if sra.check_for_wakeword(sra.listen()):
+                print("Wake Word Detected")
+                os.system("mpg123 listening.mp3")
+                user_input = sra.listen(timeout=5)
+                
                 history.append((user_input, None))
 
                 history = oa.get_chatgpt_response(history, user_input)
 
                 oa.text_to_speech(history)
 
-                os.system("afplay speech.mp3")
-                
+                os.system("mpg123 speech.mp3")
+                    
                 #reseting timer
                 start_time = time.time()
-        
-        if time.time() - start_time > 60:
-            print("No input for 60 seconds. Clearing history.")
-            history = []
+            
+            if time.time() - start_time > 60:
+                print("No input for 60 seconds. Clearing history.")
+                history = []
+        except KeyboardInterrupt:
+            exit()
+        except:
+            os.system("mpg123 restarting.mp3")
