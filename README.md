@@ -41,4 +41,4 @@ python3 main.py
 Enjoy the seamless integration of voice commands and real-time Google Custom Search Engine data retrieval with WebGPTVoiceAssistant on your Raspberry Pi 4 or macOS device.
 
 ## Any Questions or Issues?
-Feel free to ask any questions at [my website](https://haavish.com) or report issues in the Issues section. I appreciate your feedback and contributions to make WebGPTVoiceAssistant even better!
+Feel free to ask any questions at [my website](https://haavishbonala.github.io/) or report issues in the Issues section. I appreciate your feedback and contributions to make WebGPTVoiceAssistant even better!
